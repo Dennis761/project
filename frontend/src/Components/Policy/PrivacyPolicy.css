@@ -1,0 +1,50 @@
+.policy-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* .company-info-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+} */
+
+.company-info-section h2 {
+  color: #333;
+  font-size: 28px;
+}
+
+.policy-section, .company-info-section, .community-rules-section, .prohibited-actions-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+}
+
+.policy-section h2, .community-rules-section h2, .prohibited-actions-section h2 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.policy-section p {
+  color: #666;
+  font-size: 16px;
+}
+
+.policy-list, .rules-list, .prohibited-actions-list {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+.policy-list-item, .rules-list-item, .prohibited-actions-list-item {
+  margin-bottom: 8px;
+}
+
+/*

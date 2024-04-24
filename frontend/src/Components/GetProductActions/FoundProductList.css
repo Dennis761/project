@@ -1,0 +1,56 @@
+.found-product-container {
+  background-image: url('../../Images/FoundListBackground.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  align-items: center;
+  text-align: center;
+}
+
+.filter-button {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #31a340;
+  color: white;
+  text-align: center;
+  font-size: auto;
+  height: 5vh;
+  width: 17vh;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+.filter-button:hover {
+  background-color: #0056b3; 
+}
+
+.found-product-container h2 {
+  color: white;
+  text-align: center;
+}
+
+.filter-container {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  /* overflow: hidden; */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-container .filter-button {
+  z-index: 20;
+  padding: 8px 16px;
+  background-color: #54d77c;
+  border: 1px solid black;
+  color: white;
+}
+
+.filter-container .filter-button:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,50 @@
+.history-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.history-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.history-product-link {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.history-product-link:hover {
+  color: #007bff;
+}
+
+.history-action {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.history-date,
+.history-time {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #777;
+}
+
+.history-date::before,
+.history-time::before {
+  content: " ";
+}
+
+.history-date::before {
+  content: "Time: ";
+  font-weight: bold;
+}
+
+.history-time::before {
+  content: "Time: ";
+  font-weight: bold;
+}
