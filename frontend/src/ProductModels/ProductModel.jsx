@@ -64,7 +64,12 @@ export default function ProductModel({ product, isLoading, userData }) {
                 }}>
                 Description: {product.description}
               </p>
-              <p style={{ fontSize: '3vh', textAlign: 'center' }}>
+              <p 
+              style={{ 
+                fontSize: '3vh', 
+                textAlign: 'center',
+                whiteSpace: 'pre-line' 
+                }}>
                 About Product: {product.aboutProduct}
               </p>
               <div style={{ marginTop: '5vh', height: 'auto' }}>

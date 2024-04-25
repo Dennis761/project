@@ -1,9 +1,18 @@
 import ProductModel from '../Models/ProductModel.js'
 import UserModel from '../Models/UserModel.js'
+import { validationResult } from 'express-validator'
 import mongoose from 'mongoose'
 
 export const createMyProduct = async (req, res) => {
     try {
+        const errors = validationResult(req)
+
+        if(!errors.isEmpty()){
+            return res.status(400).json({
+                errors: errors.array()
+            })
+        }
+
         const userId = req.userId
 
         if (!userId) {

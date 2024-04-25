@@ -11,7 +11,6 @@ export const register = async (req, res) => {
 
         if(!errors.isEmpty()){
             return res.status(400).json({
-                success: 'Validation failed',
                 errors: errors.array()
         })
     }
@@ -56,7 +55,7 @@ export const login = async (req, res) => {
 
         if(!user){
             return res.status(404).json({
-                message: 'User not found'
+                message: 'User not found!'
             })
         }
 
@@ -64,7 +63,7 @@ export const login = async (req, res) => {
 
         if(!isAvailable){
             return res.status(403).json({
-                message: 'Invalid login or password'
+                message: 'Invalid login or password!'
             })
         }
 

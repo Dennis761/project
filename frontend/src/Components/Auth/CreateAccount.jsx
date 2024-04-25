@@ -13,7 +13,7 @@ export default function CreateAccount() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { error } = useSelector(state => state.createNewUser);
-
+  console.log('error', error, typeof error)
   const submitNewUser = () => {
     if(error){
       console.error(error)
@@ -35,6 +35,14 @@ export default function CreateAccount() {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'name')?.msg}
+          </p>
         </div>
 
         <div className="form-group">
@@ -46,6 +54,14 @@ export default function CreateAccount() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'email')?.msg}
+          </p>
         </div>
 
         <div className="form-group">
@@ -57,6 +73,14 @@ export default function CreateAccount() {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'country')?.msg}
+            </p>
         </div>
 
         <div className="form-group">
@@ -68,6 +92,14 @@ export default function CreateAccount() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.find(error => error.path === 'password')?.msg}
+          </p>
         </div>
         <a href='/login' style={{textDecoration: 'none'}}>If you have account. Login</a>
         <Button variant="primary" onClick={submitNewUser}>Login</Button>

@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import checkAuth from './Middlewares/CheckAuth.js'
 
+import * as validator from './Validation/Validation.js'
+
 import * as productControllers from './Controllers/productControllers.js'
 import * as cartControllers from './Controllers/cartControllers.js'
 import * as getProductControllers from './Controllers/getProductListControllers.js'
@@ -33,7 +35,7 @@ app.get('/', (req, res) => {
 
 //User Routes
 
-app.post('/auth/registration', userControllers.register)
+app.post('/auth/registration', validator.createUserValidator, userControllers.register)
 app.post('/auth/login', userControllers.login)
 app.get('/get-profile/:userToken', checkAuth, userControllers.getProfile)
 app.patch('/edit-profile', checkAuth, userControllers.editProfile)
@@ -63,7 +65,7 @@ app.get('/history-list', checkAuth, historyControllers.getHistoryList);
 //My Product Routes
 
 app.get('/show-my-products', checkAuth, myProductControllers.showMyProducts)
-app.post('/create-product', checkAuth, myProductControllers.createMyProduct)
+app.post('/create-product', validator.productValidator, checkAuth, myProductControllers.createMyProduct)
 app.patch('/edit-product/:id', checkAuth, myProductControllers.editMyProduct)
 app.delete('/delete-product/:id', checkAuth, myProductControllers.deleteMyProduct)
  

@@ -17,6 +17,10 @@ export const saveProduct = (id) => async (dispatch) => {
             }
         );
         
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const { savedId, saves } = response.data;
 
         dispatch({
@@ -52,6 +56,10 @@ export const removeSavedProduct = (id) => async (dispatch) => {
             }
         );
 
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const { removedId, saves } = response.data;
         dispatch({
             type: actionType.REMOVE_SAVED_SUCCESS,
@@ -85,7 +93,7 @@ export const getSavedProducts = (products, pages) => async (dispatch) => {
         const {savedProducts} = response.data
         
         if(!response.data){
-            return
+            throw new Error('Invalid response data');
         }
         
         dispatch({
@@ -115,6 +123,10 @@ export const rateProduct = (rating, id) => async (dispatch) => {
             }
         });
 
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const { average, rate } = response.data;
         
         dispatch({
@@ -133,12 +145,12 @@ export const rateProduct = (rating, id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: actionType.RATE_ONE_ERROR,
-            payload: error.message // Passing error message as payload
+            payload: error.message 
         });
     }
 };
 
-export const getRatedList = (products, pages) => async (dispatch) => {
+export const ratedProductList = (products, pages) => async (dispatch) => {
     try {
       dispatch({ type: actionType.RATED_LIST_REQUEST });
       const token = localStorage.getItem('token');
@@ -150,6 +162,11 @@ export const getRatedList = (products, pages) => async (dispatch) => {
           'Authorization': `Bearer ${token}`
         }
       });
+
+      if(!response.data){
+        throw new Error('Invalid response data');
+    }
+    
       const { foundRatedProducts } = response.data;
 
       dispatch({
@@ -162,7 +179,9 @@ export const getRatedList = (products, pages) => async (dispatch) => {
     } catch (error) {
       dispatch({
         type: actionType.RATED_LIST_ERROR,
-        payload: error.message 
+        payload: {
+            error: error.response.data
+        }
       });
     }
   };

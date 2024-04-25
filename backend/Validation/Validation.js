@@ -1,55 +1,51 @@
 import { body } from 'express-validator';
 
-export const UserValidator = [
-    body('email')
-        .isEmail().withMessage('Invalid email format'),
-    body('name')
-        .isLength({ min: 2 }).withMessage('Name must be at least 2 characters long')
-        .matches(/^[a-zA-Z\s]*$/).withMessage('Name can only contain letters and spaces'),
-    body('password')
-        .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
+export const createUserValidator = [
+    body('name', 
+        'Name must be at least 2 letters long! \n Name can only contain letters and spaces!')
+        .isLength({ min: 2 }) 
+        .matches(/^[a-zA-Z\s]*$/), 
+    body('email', 'Invalid email format!').isEmail(), 
+
+    body('country', 
+        'Country must be at least 2 characters long! \n Country can only contain letters and spaces!')
+        .isLength({ min: 2 }) 
+        .matches(/^[a-zA-Z\s]*$/), 
+
+    body('password', 
+        'Password must be at least 8 characters long! \n Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character!')
+        .isLength({ min: 8 }) 
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/)
-        .withMessage('Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'),
-    body('country').optional()
-        .isLength({ min: 2 }).withMessage('Country must be at least 2 characters long')
-        .matches(/^[a-zA-Z\s]*$/).withMessage('Country can only contain letters and spaces')
 ];
 
-export const LoginValidator = [
-    body('email')
-        .isEmail().withMessage('Invalid email format'),
-    body('password')
-        .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long')
-];
-
-export const ProductValidator = [
-    body('title')
+export const productValidator = [
+    body('title', 'Title must be at least 3 characters long')
         .trim()
-        .isLength({ min: 3 }).withMessage('Title must be at least 3 characters long'),
+        .isLength({ min: 3 }),
 
-    body('description')
+    body('description', 'Description must be at least 10 characters long')
         .trim()
-        .isLength({ min: 10 }).withMessage('Description must be at least 10 characters long'),
+        .isLength({ min: 10 }),
 
-    body('aboutProduct')
+    body('aboutProduct', 'About product must be at least 10 characters long')
         .optional()
         .trim()
-        .isLength({ min: 10 }).withMessage('About product must be at least 10 characters long'),
+        .isLength({ min: 10 }),
 
-    body('imagesURL')
-        .optional().withMessage('Please upload an image'),
+    body('imageURL', 'Please upload an image')
+        .optional(),
 
-    body('location')
+    body('location', 'Location must be at least 3 characters long')
         .optional()
         .trim()
-        .isLength({ min: 3 }).withMessage('Location must be at least 3 characters long'),
+        .isLength({ min: 3 }),
 
-    body('country')
+    body('country', 'Country must be at least 3 characters long')
         .optional()
         .trim()
-        .isLength({ min: 3 }).withMessage('Country must be at least 3 characters long'),
+        .isLength({ min: 3 }),
 
-    body('price')
+    body('price', 'Price must be a valid number')
         .optional()
-        .isNumeric().withMessage('Price must be a valid number')
+        .isNumeric()
 ];

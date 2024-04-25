@@ -91,7 +91,9 @@ export const editMyProfile = (data, onClose) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: actionType.EDIT_PROFILE_ERROR,
-      payload: error
+      payload: {
+        error: error.response.data
+      }
     })
   }
 }
@@ -106,10 +108,8 @@ export const loginUser = (data, onLogin, navigate) => async (dispatch) => {
       if (response.data) {
           onLogin();
           navigate('/homepage');
-      } else {
-          console.log('User not found');
       }
-
+      
       dispatch({
           type: actionType.LOGIN_USER_SUCCESS,
           payload: {
@@ -121,7 +121,7 @@ export const loginUser = (data, onLogin, navigate) => async (dispatch) => {
       dispatch({
           type: actionType.LOGIN_USER_ERROR,
           payload: {
-              error: error.response ? error.response.data.message : 'Server error'
+            error: error.response.data
           }
       });
   }
@@ -158,7 +158,6 @@ export const logout = (navigate) => async (dispatch) => {
 export const createNewUser = (data, navigate) => async (dispatch) => {
   try {
     const response = await axios.post('http://localhost:4444/auth/registration', data)
-    console.log('response',response)
     if (response) {
       navigate('/login');
     }
@@ -171,7 +170,9 @@ export const createNewUser = (data, navigate) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: actionType.CREATE_USER_ERROR,
-      payload: error.message
+      payload: {
+        error: error.response.data
+      }
     })
   }
 }

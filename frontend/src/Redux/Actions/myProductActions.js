@@ -12,14 +12,22 @@ export const publishProduct = (data) => async (dispatch) => {
             'Authorization': `Bearer ${token}`
           }
         });
-    
+        
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const product = response.data;
 
-        if(!product){
-            throw new Error('Product not published')
-        }
         dispatch({
-            type: actionType.CREATE_PRODUCT_SUCCESS,
+            type: actionType.PUBLISH_PRODUCT_ERROR,
+            payload: {
+                error: null
+              }
+        })
+
+        dispatch({
+            type: actionType.PUBLISH_PRODUCT_SUCCESS,
             payload: {
                 product
             }
@@ -27,8 +35,10 @@ export const publishProduct = (data) => async (dispatch) => {
 
       } catch (error) {
         dispatch({
-            type: actionType.CREATE_PRODUCT_ERROR,
-            payload: error.message
+            type: actionType.PUBLISH_PRODUCT_ERROR,
+            payload: {
+                error: error.response.data
+              }
         })
       }
 }
@@ -46,6 +56,10 @@ export const getMyProduct = () => async (dispatch) => {
             }
         });
   
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const { foundProducts, message } = response.data;
   
         if (!foundProducts) {
@@ -82,6 +96,10 @@ export const editMyProduct = (id, editedProduct, onClose) => async (dispatch) =>
           }
         );
 
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const {updatedProduct} = response.data
 
         if(!updatedProduct){
@@ -115,6 +133,10 @@ export const deleteMyProduct = (id) => async (dispatch) => {
             }
         });
 
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+        
         const {removedId} = response.data
 
         if(!removedId){

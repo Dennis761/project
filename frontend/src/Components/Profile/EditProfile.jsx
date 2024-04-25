@@ -37,6 +37,14 @@ const EditProfile = ({ onClose }) => {
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.find(error => error.path === 'name')?.msg}
+          </p>
         </label>
         <label>
           <h2>Email:</h2>
@@ -46,6 +54,14 @@ const EditProfile = ({ onClose }) => {
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.find(error => error.path === 'email')?.msg}
+          </p>
         </label>
         <label>
           <h2>Country:</h2>
@@ -55,6 +71,14 @@ const EditProfile = ({ onClose }) => {
             onChange={(e) => setCountry(e.target.value)}
             placeholder="Enter your country"
           />
+          <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.find(error => error.path === 'country')?.msg}
+          </p>
         </label>
         <label>
           <h2>Avatar URL:</h2>
@@ -71,6 +95,14 @@ const EditProfile = ({ onClose }) => {
               reader.readAsDataURL(file);
             }}
          />
+         <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.find(error => error.path === 'imageURL')?.msg}
+          </p>
         </label>
         <button type="submit">Save</button>
         <button type="button" onClick={onClose}>Cancel</button>

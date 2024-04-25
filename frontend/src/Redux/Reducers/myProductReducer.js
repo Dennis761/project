@@ -1,22 +1,22 @@
 import * as actionType from '../Constants/myProductConstants.js';
 
-export const createProductReducer = (state = {product: {}, error: null}, action) => {
+export const publishProductReducer = (state = {product: {}, error: null}, action) => {
     switch (action.type) {
-        case actionType.CREATE_PRODUCT_SUCCESS:
+        case actionType.PUBLISH_PRODUCT_SUCCESS:
             return {
                 ...state,
                 product: action.payload.product,
                 error: null
             }
-        case actionType.CREATE_PRODUCT_ERROR:
+        case actionType.PUBLISH_PRODUCT_ERROR:
             return {
                 ...state,
-                error: action.payload.error 
+                error: action.payload.error.errors
             };
         case actionType.CLEAR_ERROR:
             return {
                 ...state,
-                error: null
+                error: action.payload ? action.payload.error : null          
             };
         default:
             return state;

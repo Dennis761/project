@@ -15,6 +15,11 @@ export const getOneProduct = (productId) => async (dispatch) => {
         'Authorization': `Bearer ${token}`
       }
     });
+
+    if(!response.data){
+      throw new Error('Invalid response data');
+  }
+
     const { doc, ratedProduct, checkSavedProduct, userData } = response.data;
 
     if (!doc) {
@@ -58,7 +63,9 @@ export const getOneProduct = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: actionType.ONE_PRODUCT_ERROR,
-      payload: error
+      payload: {
+        error: error.response.data
+      }
     })
   }
 };
@@ -72,11 +79,17 @@ export const getAllProducts = (products, pages) => async (dispatch) => {
       throw new Error('Token not found in local storage');
     }
     const response = await axios.get(`http://localhost:4444/products?products=${products.toString()}&pages=${pages.toString()}`, {
-  headers: {
-    'Authorization': `Bearer ${token}`
-  }
-})
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+    if(!response.data){
+      throw new Error('Invalid response data');
+    }
+
     const { productsList } = response.data;
+
     dispatch({
       type: actionType.ALL_PRODUCTS_SUCCESS,
       payload: {
@@ -86,10 +99,11 @@ export const getAllProducts = (products, pages) => async (dispatch) => {
     });
 
   } catch (error) {
-    console.error('error:', error)
     dispatch({
       type: actionType.ALL_PRODUCTS_ERROR,
-      payload: error.message 
+      payload: {
+        error: error.response.data
+      }
     });
   }
 }
@@ -105,6 +119,11 @@ export const findProduct = (title) => async (dispatch) => {
         headers: {
         'Authorization': `Bearer ${token}`}
       });
+
+      if(!response.data){
+        throw new Error('Invalid response data');
+      }
+
       const foundProducts = response.data
       if(!foundProducts){
         return
@@ -120,7 +139,9 @@ export const findProduct = (title) => async (dispatch) => {
     } catch (error) {
       dispatch({
         type: actionType.FOUND_PRODUCT_ERROR,
-        payload: error
+        payload: {
+          error: error.response.data
+        }
     })
   }
 }

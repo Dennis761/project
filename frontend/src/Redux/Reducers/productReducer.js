@@ -96,7 +96,7 @@ export const rateProductReducer = (productState = { savedProductStatus: [] }, ac
     }
 };
 
-export const getRatedListReducer = (state = { isLoading: false, foundRatedProducts: [], error: null }, action) => {
+export const ratedProductListReducer = (state = { isLoading: false, foundRatedProducts: [], error: null }, action) => {
     switch (action.type) {
       case actionType.RATED_LIST_REQUEST:
         return {

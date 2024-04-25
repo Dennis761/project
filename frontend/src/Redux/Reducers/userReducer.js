@@ -37,7 +37,7 @@ export const myProfileReducer = (state = { isLoading: false, profileData: {}, fo
                 ...state,
                 isLoading: false,
                 state: true, 
-                error: action.payload.error 
+                error: action.payload.error.errors
             };
         default:
             return state;
@@ -47,15 +47,15 @@ export const myProfileReducer = (state = { isLoading: false, profileData: {}, fo
 export const createNewUserReducer = (state = { userData: {}, error: null}, action) => {
     switch (action.type) {
         case actionType.CREATE_USER_SUCCESS:
-                return {
-                    ...state,
-                    userData: action.payload.userData,
-                    error: null
-                }
+            return {
+                ...state,
+                userData: action.payload.userData,
+                error: null
+            }
         case actionType.CREATE_USER_ERROR:
             return {
                 ...state,
-                error: action.payload.error 
+                error: action.payload.error.errors
             };
         case actionType.CLEAR_ERROR:
             return {

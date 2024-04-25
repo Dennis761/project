@@ -14,10 +14,10 @@ export default function PublishProduct() {
   const [country, setCountry] = useState('');
   const [imageURL, setImageURL] = useState('');
   const [price, setPrice] = useState('');
-  const [success, setSuccess] = useState(false);
-  const {product, error} = useSelector(state => state.createProduct)
+  const [successAlert, setSuccessAlert] = useState(false);
+  const {product, error} = useSelector(state => state.publishProduct)
  
-  const createProduct = useCallback(() => {
+  const publishNewProduct = useCallback(() => {
     function formatString(str) {
       if (str.length < 30) {
           return str;
@@ -43,8 +43,9 @@ export default function PublishProduct() {
         dispatch(clearError())
       }
       dispatch(publishProduct(data))
-      if (product) {
-        setSuccess(true);
+
+      if (product && !error) {
+        setSuccessAlert(true);
         setTimeout(() => {
           setTitle('');
           setDescription('');
@@ -53,31 +54,38 @@ export default function PublishProduct() {
           setCountry('');
           setImageURL('');
           setPrice('');
-        }, 2000);
+          setSuccessAlert(false)
+        }, 2500);
       }
     }
-        , [title, description, aboutProduct, imageURL, location, country, price]);
 
-  const debounced = useDebounce(createProduct, 2500)
+        , [title, description, aboutProduct, imageURL, location, country, price, error, successAlert]);
+
+  const debounced = useDebounce(publishNewProduct, 2500)
 
   return (
     <div className='product-create-set'>
       <h2>Puplish your product!</h2>
-      {error && <Alert variant={"danger"} >
-          {error}!
-        </Alert>}
-      {success && <Alert variant={"success"} >
+      {!error && successAlert && <Alert variant={"success"} >
           You published new product!
-        </Alert>}
+        </Alert>} 
       <div className="form-group">
-        <label className="product-name">Product name:</label>
+        <label className="product-title">Product title:</label>
         <input
           type="text"
-          id="product-name"
-          placeholder='Input product name'
+          id="product-title"
+          placeholder='Input product title'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'title')?.msg}
+          </p>
       </div>
       <div className="form-group">
         <label className="product-description">Short description:</label>
@@ -87,16 +95,32 @@ export default function PublishProduct() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'description')?.msg}
+          </p>
       </div>
       <div className="form-group">
-        <label className="product-about">Full description:</label>
+        <label className="product-about">About Product:</label>
         <textarea
           type="text"
           id="product-about"
-          placeholder='Input product history'
+          placeholder='Input info about product'
           value={aboutProduct}
           onChange={(e) => setAboutProduct(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'aboutProduct')?.msg}
+          </p>
       </div>
       <div className="form-group">
         <label className="product-image">Image:</label>
@@ -113,6 +137,14 @@ export default function PublishProduct() {
           reader.readAsDataURL(file);
           }}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'imageURL')?.msg}
+          </p>
       </div>
       <div className="form-group">
         <label className="product-country">Country:</label>
@@ -123,6 +155,14 @@ export default function PublishProduct() {
           value={country}
           onChange={(e) => setCountry(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'country')?.msg}
+          </p>
       </div>
       <div className="form-group">
         <label className="product-location">Location:</label>
@@ -133,6 +173,14 @@ export default function PublishProduct() {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'location')?.msg}
+          </p>
       </div>
       <div className="form-group">
         <label className="product-price">Price:</label>
@@ -143,6 +191,14 @@ export default function PublishProduct() {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
         />
+        <p style={{
+            marginLeft: '20px',
+            fontSize: '12px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+            {error && error.find(error => error.path === 'price')?.msg}
+          </p>
         </div>
       <div className="button-create-container">
         <button className='create-product-btn' onClick={debounced}>Publish product</button>

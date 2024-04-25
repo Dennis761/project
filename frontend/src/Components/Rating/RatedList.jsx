@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getRatedList, clearError } from '../../Redux/Actions/productActions.js'; 
+import { ratedProductList, clearError } from '../../Redux/Actions/productActions.js'; 
 import useInternetState from '../../Hooks/useInternetState.jsx';
 import usePagination from '../../Hooks/usePagination.jsx'
 import ProductListModel from '../../ProductModels/ProductListModel.jsx';
@@ -12,12 +12,12 @@ export default function RatedList() {
   const parentRef = useRef()
   const childRef = useRef() 
   const productsPerPage = 20;
-  const { foundRatedProducts, pages, isLoading, lineState, error } = useSelector(state => state.getRatedList);
+  const { foundRatedProducts, pages, isLoading, lineState, error } = useSelector(state => state.ratedProductList);
   const isOnline = useInternetState()
 
   const intersected = usePagination(parentRef, childRef, () => {
       if (!isLoading && !error) {
-        dispatch(getRatedList(productsPerPage, pages? pages : 0));
+        dispatch(ratedProductList(productsPerPage, pages? pages : 0));
       }
     });
 
@@ -26,7 +26,7 @@ export default function RatedList() {
       console.error(error);
       dispatch(clearError());
     }
-    dispatch(getRatedList(productsPerPage, pages? pages : 0));
+    dispatch(ratedProductList(productsPerPage, pages? pages : 0));
   }, [dispatch]);
   return (
     <>

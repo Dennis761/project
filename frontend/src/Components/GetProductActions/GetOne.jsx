@@ -13,9 +13,6 @@ const Product = () => {
     userData, 
     isLoading, 
     error } = useSelector(state => state.getProduct);
-  const {
-    rating, 
-    average} = useSelector(state => state.rateProduct) 
    
   useEffect(() => {
     if(error){

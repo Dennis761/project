@@ -27,7 +27,7 @@ export default function Login({onLogin}) {
       <h2>Entrance</h2>
       <form > 
         <div className="form-group">
-          <label htmlFor="email">Gmail:</label>
+          <label htmlFor="email">Email:</label>
           <input
             id="email"
             placeholder='Input your Gmail'
@@ -49,6 +49,14 @@ export default function Login({onLogin}) {
         </div>
         <a href='/registration' style={{textDecoration: 'none'}}>Don't have account? Create account</a>
         <Button variant="primary" onClick={submitUser}>Login</Button>
+        <p style={{
+            textAlign: 'center',
+            fontSize: '20px',
+            color: 'red',
+            whiteSpace: 'pre-line' 
+          }}>
+          {error && error.message}
+          </p>
       </form>
     </div>
   );

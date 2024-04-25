@@ -4,15 +4,16 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 import { 
     cartReducer } from '../Redux/Reducers/cartReducer.js'
+
 import {
     historyReducer } from '../Redux/Reducers/historyReducer.js'
 import { 
     saveProductStateReducer, 
     savedProductsListReducer, 
     rateProductReducer,
-    getRatedListReducer } from '../Redux/Reducers/productReducer.js'
+    ratedProductListReducer } from '../Redux/Reducers/productReducer.js'
 import { 
-    createProductReducer,
+    publishProductReducer,
     myProductReducer } from '../Redux/Reducers/myProductReducer.js'
 import { 
     getProductReducer, 
@@ -24,20 +25,20 @@ import {
     userInfoReducer } from '../Redux/Reducers/userReducer.js'
  
 const reducer = combineReducers({
+    userInfo: userInfoReducer,
     cart: cartReducer,
     myProduct: myProductReducer,
+    myProfile: myProfileReducer,
     history: historyReducer,
     getProducts: getProductsReducer,
+    getProduct: getProductReducer,
+    findProduct: findProductReducer,
     saveProductState: saveProductStateReducer,
     savedProductsList: savedProductsListReducer,
     rateProduct: rateProductReducer,
-    getProduct: getProductReducer,
-    findProduct: findProductReducer,
-    myProfile: myProfileReducer,
-    getRatedList: getRatedListReducer,
+    ratedProductList: ratedProductListReducer,
     createNewUser: createNewUserReducer,
-    userInfo: userInfoReducer,
-    createProduct: createProductReducer
+    publishProduct: publishProductReducer
 })
 
 const middleWare = [thunk]

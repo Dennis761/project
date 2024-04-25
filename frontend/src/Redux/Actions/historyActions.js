@@ -14,6 +14,10 @@ export const getHistoryList = (products, pages) => async (dispatch) => {
             }
           })
 
+          if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const {historyList} = response.data
         
         dispatch({
@@ -40,6 +44,10 @@ export const removeFromHistoryList = (id) => async (dispatch) => {
         {headers: {
             'Authorization': `Bearer ${token}`}})
 
+        if(!response.data){
+            throw new Error('Invalid response data');
+        }
+
         const {removedId} = response.data
         dispatch({
             type: actionType.REMOVE_ONE_FROM_HISTORY_SUCCESS,
@@ -53,7 +61,9 @@ export const removeFromHistoryList = (id) => async (dispatch) => {
             type: actionType.REMOVE_ONE_FROM_HISTORY_ERROR,
             payload: {
                 type: actionType.HISTORY_LIST_ERROR,
-                payload: error
+                payload: {
+                    error: error.response.data
+                }
             }
         })
     }
