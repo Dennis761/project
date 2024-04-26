@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useSelector } from 'react-redux';
-import Login from './Components/Auth/Login.jsx'
-import Homepage from './Components/Homepage/Homepage.jsx'
-import PrivacyPolicy from './Components/Policy/PrivacyPolicy.jsx'
-import Header from './Header/Header.jsx';
-import Footer from './Footer/Footer.jsx';
-import CreateAccount from './Components/Auth/CreateAccount.jsx';
-import PublishProduct from './Components/ProductActions/PublishProduct.jsx';
-import Product from './Components/GetProductActions/GetOne.jsx'
-import GetAll from './Components/GetProductActions/GetAll.jsx'
-import FoundProduct from './Components/GetProductActions/FoundProductList.jsx';
-import SavedList from './Components/Saving/SavedList.jsx';
-import RatedList from './Components/Rating/RatedList.jsx';
-import Profile from './Components/Profile/Profile.jsx'
-import HistoryList from './Components/History/HistoryList.jsx'
+import Login from './Components/Main/Auth/Login.jsx';
+import Homepage from './Components/Main/Homepage/Homepage.jsx';
+import PrivacyPolicy from './Components/Main/Policy/PrivacyPolicy.jsx';
+import Header from './Components/Header/Header.jsx';
+import Footer from './Components/Footer/Footer.jsx';
+import CreateAccount from './Components/Main/Auth/CreateAccount.jsx';
+import PublishProduct from './Components/Main/ProductActions/PublishProduct.jsx';
+import Product from './Components/Main/GetProductActions/GetOne.jsx'
+import GetAll from './Components/Main/GetProductActions/GetAll.jsx'
+import FoundProduct from './Components/Main/GetProductActions/FoundProductList.jsx';
+import SavedList from './Components/Main/Saving/SavedList.jsx';
+import RatedList from './Components/Main/Rating/RatedList.jsx';
+import Profile from './Components/Main/Profile/Profile.jsx'
+import HistoryList from './Components/Main/History/HistoryList.jsx'
 import './bootstrap.min.css'
 
 function App() {

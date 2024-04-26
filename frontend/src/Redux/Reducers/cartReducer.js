@@ -1,10 +1,10 @@
 import * as actionType from '../Constants/cartConstants.js';
 
-export const cartReducer = (state = { isLoading: false, error: null }, action) => {
+export const cartReducer = (state = { isLoading: false, error: null, cartItems: [] }, action) => {
     switch (action.type) {
         case actionType.ADD_TO_CART_SUCCESS:
             const product = action.payload.product;
-            const existItem = state.cartItems.find((x) => x._id === item._id);
+            const existItem = state.cartItems.find((x) => x._id === product._id);
 
             if (existItem) {
                 const cartItems = state.cartItems.map((item) => item && (item._id === existItem._id) ? product : item)
@@ -17,7 +17,7 @@ export const cartReducer = (state = { isLoading: false, error: null }, action) =
                 return {
                     ...state,
                     isLoading: false,
-                    cartItems: [...state.cartItems, item],
+                    cartItems: [...state.cartItems, product],
                 };
             }
         case actionType.ADD_TO_CART_ERROR:
@@ -45,7 +45,6 @@ export const cartReducer = (state = { isLoading: false, error: null }, action) =
             return {
                 ...state,
                 isLoading: true,
-                cartItems: []
             };
         case actionType.CART_LIST_SUCCESS:
             return { 

@@ -33,7 +33,7 @@ export const addItemToCart = (id) => async (dispatch) => {
         dispatch({
             type: actionType.ADD_TO_CART_ERROR,
             payload: {
-                error: error.response.data
+                error: error.response
             }
         })
     }
@@ -61,6 +61,7 @@ export const getItemFromCart = () => async (dispatch) => {
         }
 
         const { foundProducts } = response.data;
+
         dispatch({
             type: actionType.CART_LIST_SUCCESS,
             payload:{
@@ -72,7 +73,7 @@ export const getItemFromCart = () => async (dispatch) => {
         dispatch({
             type: actionType.CART_LIST_ERROR,
             payload: {
-                error: error.response.data
+                error: error.response
             }
         })
     }
@@ -108,7 +109,7 @@ export const removeItemFromCart = (id) => async (dispatch) => {
         dispatch({
             type: actionType.REMOVE_FROM_CART_ERROR,
             payload: {
-                error: error.response.data
+                error: error.response
             }
         })
     }
