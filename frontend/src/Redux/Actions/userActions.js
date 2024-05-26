@@ -38,14 +38,14 @@ export const getProfile = (userToken) => async (dispatch) => {
               type: MY_PRODUCTS_SUCCESS,
               payload: {
                   foundProducts,
-                  state: true
+                  rightsState: true
               }
           }); 
       } else {
         dispatch({
           type: MY_PRODUCTS_SUCCESS,
           payload: {
-              state: false
+            rightsState: false
           }
       }); 
           dispatch({

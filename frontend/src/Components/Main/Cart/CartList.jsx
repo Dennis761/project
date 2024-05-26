@@ -34,7 +34,7 @@ export default function CartList() {
                     cartItems && cartItems.map(product => (
                         product && <li key={product._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'transparent',paddingRight: '5px' }}>
                             <div>
-                                <NavDropdown.Item as={Link} to={`/product/${product._id}`}>
+                                <NavDropdown.Item as={Link} to={`/products/${product._id}`}>
                                     <b>Title: {truncateString(product.title)}</b>
                                     <p>Price: {truncateString(product.price)}$</p>
                                 </NavDropdown.Item>

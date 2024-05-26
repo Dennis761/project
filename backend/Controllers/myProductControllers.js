@@ -5,65 +5,55 @@ import mongoose from 'mongoose'
 
 export const createMyProduct = async (req, res) => {
     try {
-        const errors = validationResult(req)
+        const errors = validationResult(req);
 
-        if(!errors.isEmpty()){
+        if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array()
-            })
-        }
-
-        const userId = req.userId
-
-        if (!userId) {
-            return res.status(400).json({
-                error: 'User ID not specified' 
             });
         }
 
-        const date = new Date()
- 
-        const doc = new ProductModel({
+        const userId = req.userId;
+
+        if (!userId) {
+            return res.status(400).json({
+                error: 'User ID not specified'
+            });
+        }
+
+        const user = await UserModel.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                error: 'User not found'
+            });
+        }
+
+        const newProduct = new ProductModel({
             _id: new mongoose.Types.ObjectId(),
             title: req.body.title,
             description: req.body.description,
             aboutProduct: req.body.aboutProduct,
             imageURL: req.body.imageURL,
-            creator: req.userId,
+            creator: userId,
             location: req.body.location,
             country: req.body.country,
             price: req.body.price
         });
 
-        if (!doc) {
-            return res.status(404).json({
-                error: 'Product not created' 
-            });
-        }
+        const product = await newProduct.save();
 
-        const user = await UserModel.findById(userId)
+        user.history.unshift({
+            action: 'Created product',
+            product: product._id,
+            date: new Date()
+        });
 
-        if (!user) {
-            return res.status(404).json({
-                error: 'User not found' 
-            });
-        }
+        user.products.push(product._id);
 
-        user.history.unshift({action: 'Created product', product: ProductModel._id, date: date})
+        await user.save();
 
-        await user.save()
-
-        const product = await doc.save();
-        const stringifiedId = product._id.toString()
-        const saveProduct = await UserModel.findByIdAndUpdate(userId, { $push: { products: stringifiedId } });
-
-        if (!saveProduct) {
-            return res.status(404).json({
-                error: 'Product not created' 
-            });
-        }
-
-        return res.status(200).json(product);
+        return res.status(201).json(product);
     } catch (error) {
         return res.status(500).json({
             error: error.message
@@ -151,32 +141,32 @@ export const editMyProduct = async (req, res) => {
             updates.price = price;
         }
 
-        const doc = await ProductModel.findOneAndUpdate(
+        const updatedProduct = await ProductModel.findOneAndUpdate(
             { _id: productById },
             { $set: updates },
             { new: true }
         )
 
-        if (!doc) {
+        if (!updatedProduct) {
             return res.status(403).json({
                 error: 'Product not updated'
             });
         }
 
-        const user = await UserModel.findById(userId)
+        const findUser = await UserModel.findById(userId)
 
-        if (!user) {
+        if (!findUser) {
             return res.status(404).json({
                 error: 'User not found'
             });
         }
 
-        user.history.unshift({action: 'Updated product', product: productById, date: date})
+        findUser.history.unshift({action: 'Updated product', product: productById, date: date})
 
-        await user.save()
+        await findUser.save()
 
         res.status(200).json({
-            updatedProduct: doc
+            updatedProduct
         });
     } catch (error) {
         res.status(500).json({

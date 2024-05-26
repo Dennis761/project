@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { rateProduct, clearError } from '../../../Redux/Actions/productActions';
+import { rateProduct, clearError } from '../../../Redux/Actions/rateProductActions.js';
 import useDebounce from '../../Hooks/useDebounce.jsx'
 import { CiStar } from "react-icons/ci";
  
 export default function Rate({ id }) {
   const dispatch = useDispatch();
-  const { rating, ratedProduct, average, averageRating, error } = useSelector(state => state.rateProduct);
+  const { rating, ratedProduct, average, averageRating, error } = useSelector(state => state.rateProductState);
   const [clickedStars, setClickedStars] = useState([false, false, false, false, false]);
   const [currentStars, setCurrentStars] = useState(false);
 

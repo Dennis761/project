@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { ratedProductList, clearError } from '../../../Redux/Actions/productActions.js'; 
+import { ratedProductList, clearError } from '../../../Redux/Actions/rateProductActions.js'; 
 import useInternetState from '../../Hooks/useInternetState.jsx';
 import usePagination from '../../Hooks/usePagination.jsx'
 import ProductListModel from '../../ProductModels/ProductListModel.jsx';
@@ -12,7 +12,7 @@ export default function RatedList() {
   const parentRef = useRef()
   const childRef = useRef() 
   const productsPerPage = 20;
-  const { foundRatedProducts, pages, isLoading, lineState, error } = useSelector(state => state.ratedProductList);
+  const { foundRatedProducts, pages, isLoading, lineState, error } = useSelector(state => state.rateProductState);
   const isOnline = useInternetState()
 
   const intersected = usePagination(parentRef, childRef, () => {
@@ -41,13 +41,33 @@ export default function RatedList() {
           backgroundAttachment: 'fixed',
           padding: '20px'
         }}>
-          <h1 style={{ textAlign: 'center', color: 'white' }}>Rated List</h1>
+          <h2 style={{
+            textAlign: 'center',
+            color: 'white',
+            fontSize: '7vh',
+            textShadow: `
+            -0.15vh -0.15vh 0 #000,  
+             0.15vh -0.15vh 0 #000,
+            -0.15vh  0.15vh 0 #000,
+             0.15vh  0.15vh 0 #000,
+            -0.15vh -0.15vh 0 #000,
+             0.15vh -0.15vh 0 #000,
+            -0.15vh  0.15vh 0 #000,
+             0.15vh  0.15vh 0 #000`            
+             }}>
+          Rated List:
+        </h2>
+        {foundRatedProducts && foundRatedProducts.length > 0 ? (
           <ProductListModel 
             products={foundRatedProducts} 
             isLoading={isLoading} 
             childRef={childRef} 
             parentRef={parentRef}
             lineState={lineState}/>
+            ) : (
+              <p style={{textAlign: 'center', fontSize: '23px', color: 'white'}}>No rated products</p>
+            )}
+            {error && <p style={{color: 'red'}}>Error loading rated products</p>}
         </div>
       )}
     </>

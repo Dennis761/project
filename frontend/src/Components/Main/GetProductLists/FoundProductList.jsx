@@ -7,23 +7,23 @@ import './FoundProductList.css';
 export default function FoundProduct() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortedProducts, setSortedProducts] = useState(null)
-  const { foundProducts, error } = useSelector(state => state.findProduct);
+  const { foundProductsByTitle, error } = useSelector(state => state.findProduct);
 
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
   const sortByRating = useMemo(() => {
-    return foundProducts && [...foundProducts].sort((a, b) => b.saved.length - a.saved.length);
-  }, [foundProducts]);
+    return foundProductsByTitle && [...foundProductsByTitle].sort((a, b) => b.saved.length - a.saved.length);
+  }, [foundProductsByTitle]);
 
   const sortBySaved = useMemo(() => {
-    return foundProducts && [...foundProducts].sort((a, b) => b.rating.average - a.rating.average)
-  }, [foundProducts]);
+    return foundProductsByTitle && [...foundProductsByTitle].sort((a, b) => b.rating.average - a.rating.average)
+  }, [foundProductsByTitle]);
 
   const sortByViews = useMemo(() => {
-    return foundProducts && [...foundProducts].sort((a, b) => b.viewsCount - a.viewsCount);
-  }, [foundProducts]);
+    return foundProductsByTitle && [...foundProductsByTitle].sort((a, b) => b.viewsCount - a.viewsCount);
+  }, [foundProductsByTitle]);
 
   const handleFilterSelect = (filter) => {
     switch (filter) {
@@ -37,7 +37,7 @@ export default function FoundProduct() {
         setSortedProducts(sortByViews)
         break;
       default:
-        setSortedProducts(foundProducts)
+        setSortedProducts(foundProductsByTitle)
         break;
     }
     setIsFilterOpen(false);
@@ -45,7 +45,22 @@ export default function FoundProduct() {
 
   return (
     <div className="found-product-container">
-      <h2 style={{ textAlign: 'center', color: 'white' }}>Found Products:</h2>
+      <h2 style={{
+        textAlign: 'center',
+        color: 'white',
+        fontSize: '7vh',
+        textShadow: `
+          -0.15vh -0.15vh 0 #000,  
+           0.15vh -0.15vh 0 #000,
+          -0.15vh  0.15vh 0 #000,
+           0.15vh  0.15vh 0 #000,
+          -0.15vh -0.15vh 0 #000,
+           0.15vh -0.15vh 0 #000,
+          -0.15vh  0.15vh 0 #000,
+           0.15vh  0.15vh 0 #000`}}>
+          Found Products:
+        </h2>
+
       <div className="found-product" style={{ position: 'relative', zIndex: '10' }}>
         <FindProduct />
       </div>
@@ -60,7 +75,7 @@ export default function FoundProduct() {
               </ul>
             )}
           </div>
-      <ProductListModel products={sortedProducts || foundProducts} />
+      <ProductListModel products={sortedProducts || foundProductsByTitle} />
     </div>
   );
 }

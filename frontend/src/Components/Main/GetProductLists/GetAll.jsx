@@ -38,9 +38,25 @@ const AllProducts = () => {
       </Alert>
     ) : (
     <div className="products-container">
-      <h1 style={{ textAlign: 'center', color: 'white' }}>Recommendations</h1>
+      <h2 style={{
+        textAlign: 'center',
+        color: 'white',
+        fontSize: '7vh',
+        textShadow: `
+          -0.15vh -0.15vh 0 #000,  
+           0.15vh -0.15vh 0 #000,
+          -0.15vh  0.15vh 0 #000,
+           0.15vh  0.15vh 0 #000,
+          -0.15vh -0.15vh 0 #000,
+           0.15vh -0.15vh 0 #000,
+          -0.15vh  0.15vh 0 #000,
+           0.15vh  0.15vh 0 #000`
+        }}>
+          Recommendations:
+      </h2>
+
       <FindProduct />
-        <ProductListModel 
+        <ProductListModel
         productsPerPage={productsPerPage} 
         products={productsList} 
         isLoading={isLoading} 

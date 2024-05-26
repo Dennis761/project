@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const Hash = await bcrypt.hash(password, salt)
 
-    const doc = new UserModel({
+    const createUser = new UserModel({
         name: req.body.name,
         email: req.body.email,
         country: req.body.country,
@@ -27,7 +27,7 @@ export const register = async (req, res) => {
         avatarURL: req.body.avatarURL,
     })
 
-    const user = await doc.save();
+    const user = await createUser.save();
 
         const token = jwt.sign({
             _id: user._id

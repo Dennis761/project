@@ -25,13 +25,13 @@ export default function Login({onLogin}) {
  
   return (
     <div className='profile-container'>
-      <h2>Entrance</h2>
+      <h2>Login</h2>
       <form > 
         <div className="form-group">
           <label htmlFor="email">Email:</label>
           <input
             id="email"
-            placeholder='Input your Gmail'
+            placeholder='Enter your Gmail'
             type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -42,7 +42,7 @@ export default function Login({onLogin}) {
           <label htmlFor="password">Password:</label>
           <input
             id="password"
-            placeholder='Input your password'
+            placeholder='Enter your password'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

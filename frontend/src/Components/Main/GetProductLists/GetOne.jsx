@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'; 
 import { getOneProduct, clearError } from '../../../Redux/Actions/getProductsListActions.js';
 import ProductModel from '../../ProductModels/ProductModel.jsx'
-
+ 
 const Product = () => {
   const { productId } = useParams(); 
   const dispatch = useDispatch();

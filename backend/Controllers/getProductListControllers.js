@@ -26,33 +26,80 @@ export const getAllProducts = async (req, res) => {
         function generateRecommendations(product) {
             const weightRating = 0.5;
             const weightSaves = 0.3;
-            const weightViews = 0.2;
-         
+            const weightViews = 0.02;
+
+            let productScore = []
+
             product.forEach(product => {
-                product.totalScore = (product.rating * weightRating) + 
+                let totalScore = (product.rating * weightRating) + 
                                      (product.saves * weightSaves) + 
                                      (product.views * weightViews);
+                productScore.push(totalScore)
             });
 
+            Array.prototype.shellsortFunc = function(collection) {
+                let arr = this;
+                if (arr.length !== collection.length) {
+                    throw new Error("Arr length is not equal to collection length");
+                }
+            
+                const swap = (arr, collection, i, j) => {
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                    [collection[i], collection[j]] = [collection[j], collection[i]];
+                }
+            
+                const generateSedgewickSequence = (n) => {
+                    let sequence = [];
+                    let k = 0;
+                    while (true) {
+                        let gap;
+                        if (k % 2 === 0) {
+                            gap = 9 * (1 << (2 * k)) - 9 * (1 << k) + 1;
+                        } else {
+                            gap = (1 << (2 * k + 1)) + 3 * (1 << k) + 1;
+                        }
+                        if (gap > n) break;
+                        sequence.unshift(gap);
+                        k++;
+                    }
+                    return sequence;
+                }
+            
+                const gaps = generateSedgewickSequence(arr.length);
+            
+                for (let gap of gaps) {
+                    for (let i = gap; i < arr.length; i++) {
+                        let j = i;
+                        while (j >= gap && arr[j - gap] > arr[j]) {
+                            swap(arr, collection, j, j - gap);
+                            j -= gap;
+                        }
+                    }
+                }
+            
+                return collection;
+            }
+
+            const sorted = productScore.shellsortFunc(product)
             const multiply = products*pages
-            const restProducts = product.length - multiply
+            const restProducts = sorted.length - multiply
 
             if(restProducts <= products && restProducts>=0){
-                const recommendations = product.splice(multiply, restProducts)
+                const recommendations = sorted.splice(multiply, restProducts)
                 return recommendations
             }
 
             if(restProducts > products && restProducts>=0){
-                const recommendations = product.splice(multiply, products);
+                const recommendations = sorted.splice(multiply, products);
                 return recommendations;
             }
 
-            if(multiply >= product.length){
+            if(multiply >= sorted.length){
                 return []
             }
 
-            if(product.length<20){
-                return product
+            if(sorted.length<20){
+                return sorted
             }
             
         }
@@ -83,13 +130,13 @@ export const getOneProduct = async (req, res) => {
 
         const date = new Date();
 
-        const doc = await ProductModel.findOneAndUpdate(
+        const updatedProduct = await ProductModel.findOneAndUpdate(
             { _id: productById },
             { $inc: { viewsCount: 1 } },
             { returnDocument: 'after' }
         );
 
-        if (!doc) {
+        if (!updatedProduct) {
             return res.status(404).json({
                 error: 'Product not found'
             });
@@ -103,7 +150,7 @@ export const getOneProduct = async (req, res) => {
             });
         }
 
-        const {creator} = doc
+        const {creator} = updatedProduct
 
         const findProductCreator = await UserModel.findById(creator)
 
@@ -130,7 +177,7 @@ export const getOneProduct = async (req, res) => {
         await findUser.save();
 
         res.status(200).json({ 
-            doc, 
+            updatedProduct, 
             ratedProduct,
             checkSavedProduct,
             userData: {
@@ -157,25 +204,24 @@ export const findAllProducts = async (req, res) => {
             });
         }
 
-        const user = await UserModel.findById(userId);
+        const findUser = await UserModel.findById(userId);
 
-        if (!user) {
+        if (!findUser) {
             return res.status(404).json({ 
                 error: 'User not found' 
             });
         }
 
-        const doc = await ProductModel.find({ title: productByTitle});
+        const foundProductsByTitle = await ProductModel.find({ title: productByTitle});
 
-        if (!doc) {
+        if (!foundProductsByTitle) {
             return res.status(404).json({ 
                 error: 'Product not found' 
             });
         }
 
-        await user.save();
-
-        res.status(200).json(doc);
+        await findUser.save();
+        res.status(200).json(foundProductsByTitle);
     } catch (error) {
         res.status(500).json({ 
             error: 'Server error' 
@@ -183,120 +229,3 @@ export const findAllProducts = async (req, res) => {
     }
 };
 
-export const savedList = async (req, res) => {
-    try {
-        const userId = req.userId;
-        const {products, pages} = req.query
-
-        if (!userId) {
-            return res.status(400).json({
-                error: 'User ID not specified' 
-            });
-        }
-
-        const findUser = await UserModel.findById(userId);
-        
-        if (!findUser) {
-            return res.status(404).json({
-                error: 'User not found'
-            });
-        }
-
-        const findProductPromises = findUser.saved.map(id => ProductModel.findById(id));
-
-        const foundSavedProducts = await Promise.all(findProductPromises);
-
-        function generateSavedLine (savedList){
-            const multiply = products*pages
-            const restProducts = savedList.length - multiply
-
-            if(restProducts <= products && restProducts>=0){
-                const recommendations = savedList.splice(multiply, restProducts)
-                return recommendations
-            }
-
-            if(restProducts > products && restProducts>=0){
-                const recommendations = savedList.splice(multiply, products);
-                return recommendations;
-            }
-
-            if(multiply >= savedList.length){
-                return []
-            }
-
-            if(savedList.length<20){
-                return savedList
-            }
-    }
-
-    const savedNewList = generateSavedLine(foundSavedProducts)
-
-        res.status(200).json({
-            savedProducts: savedNewList
-        });
-    } catch (error) {
-        return res.status(500).json({
-            error: 'Server error'
-        });
-    }
-};
-
-export const ratedList = async (req, res) => {
-    try {
-        const userId = req.userId;
-        const {products, pages} = req.query
-
-        if (!userId) {
-            return res.status(400).json({
-                error: 'User ID not specified' 
-            });
-        }
-
-        const findUser = await UserModel.findById(userId);
-        
-        if (!findUser) {
-            return res.status(404).json({
-                error: 'User not found'
-            });
-        }
- 
-        const ratedProduct = findUser.rated.map(ratedItem => ratedItem.id);
-
-        const findProductPromises = ratedProduct.map(id => ProductModel.findById(id));
-
-        const foundRatedProducts = await Promise.all(findProductPromises);
-
-        function generateRatedLine (ratedList){
-            const multiply = products*pages
-            const restProducts = ratedList.length - multiply
-
-            if(restProducts <= products && restProducts>=0){
-                const recommendations = ratedList.splice(multiply, restProducts)
-                return recommendations
-            }
-
-            if(restProducts > products && restProducts>=0){
-                const recommendations = ratedList.splice(multiply, products);
-                return recommendations;
-            }
-
-            if(multiply >= ratedList.length){
-                return []
-            }
-
-            if(ratedList.length<20){
-                return ratedList
-            }
-        }
-
-    const ratedNewList = generateRatedLine(foundRatedProducts)
-
-    res.status(200).json({
-            foundRatedProducts: ratedNewList
-        });
-    } catch (error) {
-        return res.status(500).json({
-            error: 'Server error'
-        });
-    }
-};

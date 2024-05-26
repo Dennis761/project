@@ -1,4 +1,6 @@
-import * as actionType from '../Constants/productConstants.js';
+import * as actionType from '../Constants/getProductsListConstants.js';
+import * as actionTypeRate from '../Constants/rateProductConstants.js';
+import * as actionTypeSave from '../Constants/saveProductConstants.js';
 import axios from 'axios';
 
 export const getOneProduct = (productId) => async (dispatch) => {
@@ -10,7 +12,7 @@ export const getOneProduct = (productId) => async (dispatch) => {
       throw new Error('Token not found in local storage');
     }
  
-    const response = await axios.get(`http://localhost:4444/product/${productId}`, {
+    const response = await axios.get(`http://localhost:4444/products/${productId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -20,14 +22,14 @@ export const getOneProduct = (productId) => async (dispatch) => {
       throw new Error('Invalid response data');
   }
 
-    const { doc, ratedProduct, checkSavedProduct, userData } = response.data;
+    const { updatedProduct, ratedProduct, checkSavedProduct, userData } = response.data;
 
-    if (!doc) {
+    if (!updatedProduct) {
       throw new Error('Token not found in local storage');
     }
 
     dispatch({
-      type: actionType.RATE_ONE_SUCCESS,
+      type: actionTypeRate.RATE_ONE_SUCCESS,
       payload: {
         rating: null,
         ratedProduct,
@@ -35,19 +37,19 @@ export const getOneProduct = (productId) => async (dispatch) => {
     })
 
     dispatch({
-    type: actionType.AVERAGE_RATING_SUCCESS,
+    type: actionTypeRate.AVERAGE_RATING_SUCCESS,
     payload: {
       average: null,
-      averageRating: doc.rating.average
+      averageRating: updatedProduct.rating.average
       }
     })
     
     dispatch({
-      type: actionType.SAVE_PRODUCT_SUCCESS,
+      type: actionTypeSave.SAVE_PRODUCT_SUCCESS,
       payload: {
         checkSavedProduct,
-        saved: doc.saved.length,
-        saves: null,
+        saved: updatedProduct.saved.length,
+        currentSaves: null,
         saveState: null
       }
     })
@@ -55,7 +57,7 @@ export const getOneProduct = (productId) => async (dispatch) => {
     dispatch({
       type: actionType.ONE_PRODUCT_SUCCESS,
       payload: {
-        doc,
+        updatedProduct,
         userData
       }
     });
@@ -107,7 +109,7 @@ export const getAllProducts = (products, pages) => async (dispatch) => {
     });
   }
 }
-
+ 
 export const findProduct = (title) => async (dispatch) => {
   try {
     dispatch({type: actionType.FOUND_PRODUCT_REQUEST})
@@ -115,7 +117,8 @@ export const findProduct = (title) => async (dispatch) => {
     if (!token) {
       throw new Error('Token not found in local storage');
     }
-    const response = await axios.get(`http://localhost:4444/products/${title}`,{
+
+    const response = await axios.get(`http://localhost:4444/found-products/${title}`,{
         headers: {
         'Authorization': `Bearer ${token}`}
       });
@@ -124,8 +127,8 @@ export const findProduct = (title) => async (dispatch) => {
         throw new Error('Invalid response data');
       }
 
-      const foundProducts = response.data
-      if(!foundProducts){
+      const foundProductsByTitle = response.data
+      if(!foundProductsByTitle){
         return
       }
 
@@ -133,7 +136,7 @@ export const findProduct = (title) => async (dispatch) => {
         type: actionType.FOUND_PRODUCT_SUCCESS,
         payload: {
           title,
-          foundProducts
+          foundProductsByTitle
         }
       })
     } catch (error) {

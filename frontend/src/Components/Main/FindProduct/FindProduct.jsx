@@ -18,22 +18,20 @@ export default function FindProduct() {
     }
 
       dispatch(findProduct(trimmed))
-      navigate(`/foundproduct/${trimmed}`)
+      navigate(`/found-products/${trimmed}`)
   }
 
   return (
     <>
       <div className="search-container">
-        <form>
         <input
           type="text"
-          placeholder="Input product name"
+          placeholder="Enter product name"
           className="search-input-main"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
         <FaSearch className="search-main-button" onClick={searchProduct} />
-        </form>
       </div>
     </>
   );

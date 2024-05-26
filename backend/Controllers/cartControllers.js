@@ -19,8 +19,8 @@ export const addToCart = async (req, res) => {
                 error: 'Product ID not specified' });
         }
 
-        const findProduct = await ProductModel.findById(id)
-        if (!findProduct) {
+        const foundProduct = await ProductModel.findById(id)
+        if (!foundProduct) {
             return res.status(404).json({ 
                 error: 'Product not found' 
             });
@@ -62,7 +62,7 @@ export const addToCart = async (req, res) => {
         res.status(200).json({
             message: 'Product added',
             user: updatedUser,
-            product: findProduct 
+            product: foundProduct 
         })
     } catch (error) {
         return res.status(500).json({ 
@@ -88,9 +88,9 @@ export const cartList = async (req, res) => {
             });
         }
 
-        const findPurchasePromises = findUser.purchases.map(id => ProductModel.findById(id));
+        const foundPurchasePromises = findUser.purchases.map(id => ProductModel.findById(id));
 
-        const foundProducts = await Promise.all(findPurchasePromises);
+        const foundProducts = await Promise.all(foundPurchasePromises);
 
         res.status(200).json({
             message: 'You got all products',
@@ -122,21 +122,21 @@ export const removeFromCart = async (req, res) => {
             });
         }
 
-        const user = await UserModel.findById(userId);
+        const findUser = await UserModel.findById(userId);
 
-        if (!user) {
+        if (!findUser) {
             return res.status(404).json({
                 error: 'User not found'
             });
         }
 
-        const updateResult = await UserModel.findOneAndUpdate(
+        const removeItemFromCart = await UserModel.findOneAndUpdate(
             { _id: userId },
             { $pull: { purchases: id }, $push: { history: { action: 'Product removed from cart', product: id, date: date } } },
             { new: true }
         );
 
-        if (!updateResult) {
+        if (!removeItemFromCart) {
             return res.status(404).json({
                 error: 'Product is not found in cart'
             });

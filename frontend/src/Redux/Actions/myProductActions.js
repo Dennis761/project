@@ -12,19 +12,12 @@ export const publishProduct = (data) => async (dispatch) => {
             'Authorization': `Bearer ${token}`
           }
         });
-        
+ 
         if(!response.data){
             throw new Error('Invalid response data');
         }
 
         const product = response.data;
-
-        dispatch({
-            type: actionType.PUBLISH_PRODUCT_ERROR,
-            payload: {
-                error: null
-              }
-        })
 
         dispatch({
             type: actionType.PUBLISH_PRODUCT_SUCCESS,

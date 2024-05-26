@@ -8,10 +8,9 @@ import {
 import {
     historyReducer } from '../Redux/Reducers/historyReducer.js'
 import { 
-    saveProductStateReducer, 
-    savedProductsListReducer, 
-    rateProductReducer,
-    ratedProductListReducer } from '../Redux/Reducers/productReducer.js'
+    saveProductStateReducer} from '../Redux/Reducers/saveProductReducer.js'
+import { 
+    rateProductStateReducer} from '../Redux/Reducers/rateProductReducer.js'
 import { 
     publishProductReducer,
     myProductReducer } from '../Redux/Reducers/myProductReducer.js'
@@ -34,9 +33,7 @@ const reducer = combineReducers({
     getProduct: getProductReducer,
     findProduct: findProductReducer,
     saveProductState: saveProductStateReducer,
-    savedProductsList: savedProductsListReducer,
-    rateProduct: rateProductReducer,
-    ratedProductList: ratedProductListReducer,
+    rateProductState: rateProductStateReducer,
     createNewUser: createNewUserReducer,
     publishProduct: publishProductReducer
 })

@@ -24,7 +24,8 @@ const Homepage = () => {
     <div className="main-page">
       <div
         className="background-image"
-        style={{ backgroundImage: `url(${backgroundImages[currentImageIndex]})` }}
+        style={{backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.6)), url(${backgroundImages[currentImageIndex]})`,
+      }}
       />
       <div className="foreground-content">
         <h1>Antique store</h1>

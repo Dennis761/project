@@ -13,7 +13,7 @@ const Profile = () => {
   const { userToken } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const { profileData, foundProducts, isLoading, error } = useSelector(state => state.myProfile);
-  const { updatedList, state } = useSelector(state => state.myProduct);
+  const { updatedList, rightsState } = useSelector(state => state.myProduct);
 
   const isOnline = useInternetState()
 
@@ -63,11 +63,11 @@ const Profile = () => {
               )}
             </div>
             <h1 style={{ textAlign: 'center' }}>
-              {state ? 'My Products:' : 'User Products:'}
-            </h1>
-            <ScrollMenu items={state ? updatedList : foundProducts} isLoading={isLoading} state={state} />
+              {rightsState ? 'My Products:' : 'User Products:'}
+            </h1> 
+            <ScrollMenu items={rightsState ? updatedList : foundProducts} isLoading={isLoading} rightsState={rightsState} />
             <div className='edit-button-container'>
-              {state && (
+              {rightsState && (
                 <button className="edit-button" onClick={handleEditClick}>
                   Edit Profile
                 </button>

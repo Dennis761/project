@@ -178,7 +178,7 @@ export default function PublishProduct() {
             fontSize: '12px',
             color: 'red',
             whiteSpace: 'pre-line' 
-          }}>
+          }}> 
             {error && error.find(error => error.path === 'location')?.msg}
           </p>
       </div>

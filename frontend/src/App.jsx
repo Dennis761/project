@@ -8,9 +8,9 @@ import Header from './Components/Header/Header.jsx';
 import Footer from './Components/Footer/Footer.jsx';
 import CreateAccount from './Components/Main/Auth/CreateAccount.jsx';
 import PublishProduct from './Components/Main/ProductActions/PublishProduct.jsx';
-import Product from './Components/Main/GetProductActions/GetOne.jsx'
-import GetAll from './Components/Main/GetProductActions/GetAll.jsx'
-import FoundProduct from './Components/Main/GetProductActions/FoundProductList.jsx';
+import Product from './Components/Main/GetProductLists/GetOne.jsx'
+import GetAll from './Components/Main/GetProductLists/GetAll.jsx'
+import FoundProduct from './Components/Main/GetProductLists/FoundProductList.jsx';
 import SavedList from './Components/Main/Saving/SavedList.jsx';
 import RatedList from './Components/Main/Rating/RatedList.jsx';
 import Profile from './Components/Main/Profile/Profile.jsx'
@@ -35,15 +35,15 @@ function App() {
           {isLoggedIn && (
             <>
               <Route path='/homepage' element={<Homepage/>}/>
-              <Route path='/product' element={<GetAll/>}/>
-              <Route path='/product/:productId' element={<Product/>}/>
+              <Route path='/products' element={<GetAll/>}/>
+              <Route path='/products/:productId' element={<Product/>}/>
               <Route path='/publish-product' element={<PublishProduct/>}/>
               <Route path='/our-policy' element={<PrivacyPolicy/>}/>
               <Route path="/products/:title" element={<FoundProduct />} />
               <Route path="/saved-list" element={<SavedList/>} />
               <Route path="/rated-list" element={<RatedList/>} />
               <Route path="/profile/:userToken" element={<Profile/>} />
-              <Route path="/foundproduct/:title" element={<FoundProduct/>}/>
+              <Route path="/found-products/:title" element={<FoundProduct/>}/>
               <Route path="/history" element={<HistoryList/>}/>
             </>
           )}

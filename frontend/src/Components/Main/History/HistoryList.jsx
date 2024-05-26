@@ -60,7 +60,7 @@ export default function HistoryList() {
                 {historyList && historyList.map(product => (
                   product && <li key={product._id}>
                     <div className="history-container">
-                      <Link to={`/product/${product._id}`} className="history-product-link">
+                      <Link to={`/products/${product._id}`} className="history-product-link">
                         <h3 className='history-action'>{product.action}: {product.title}</h3>
                         <p className='history-date'>{product.date.match(/^\d{4}-\d{2}-\d{2}/)}</p>
                         <p className='history-time'>{product.date.match(/\d{2}:\d{2}/)}</p>

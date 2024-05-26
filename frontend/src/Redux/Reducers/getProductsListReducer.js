@@ -1,4 +1,4 @@
-import * as actionType from '../Constants/productConstants.js';
+import * as actionType from '../Constants/getProductsListConstants.js';
  
 export const getProductReducer = (state = { product: null, checkSavedProduct: null, isLoading: true, error: null, state: null }, action) => {
     switch (action.type) {
@@ -15,7 +15,7 @@ export const getProductReducer = (state = { product: null, checkSavedProduct: nu
             return { 
                 ...state,
                 isLoading: false,
-                product: action.payload.doc,
+                product: action.payload.updatedProduct,
                 ratedProduct: action.payload.ratedProduct,
                 userData: action.payload.userData,
             };
@@ -69,7 +69,7 @@ export const getProductsReducer = (state = { productsList: [], isLoading: true, 
       return state;
   }
 };
-    
+
 export const findProductReducer = (state = { foundSetProducts: [], isLoading: true, error: null }, action) => {
     switch (action.type) {
         case actionType.FOUND_PRODUCT_REQUEST:
@@ -78,11 +78,11 @@ export const findProductReducer = (state = { foundSetProducts: [], isLoading: tr
                 isLoading: true,
             };
         case actionType.FOUND_PRODUCT_SUCCESS:
-            const { foundProducts } = action.payload;
+            const { foundProductsByTitle } = action.payload;
             return {
                 ...state,
                 isLoading: false,
-                foundProducts: foundProducts
+                foundProductsByTitle
             };
         case actionType.FOUND_PRODUCT_ERROR:
             return {

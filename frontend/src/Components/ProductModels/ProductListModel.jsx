@@ -17,22 +17,33 @@ export default function ProductListModel({ lineState, products, isLoading, child
   return (
     <>
         {isLoading ? (
-          <div className="loading-spinner" style={{alignItems: 'center'}}>
-            <Spinner 
-              animation="border" 
-              variant="light"
-              role="status" 
-            >
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
+          <div 
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh'
+          }}
+        >
+          <Spinner 
+            animation="border" 
+            variant="light"
+            role="status" 
+            style={{
+              height: '10vh',
+              width: '10vh'
+            }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
         ) : ( 
           <div className="products-list" ref={parentRef} style={{ height: '80vh', overflow: 'auto'}}>
             {products && products.length > 0 ? (
               products.map((product, index) => 
               product && (
                 <Link
-                  to={`/product/${product._id}`} 
+                  to={`/products/${product._id}`} 
                   className="product-link"
                   style={{marginTop: '5vh', textDecoration: 'none'}}
                   key={product._id}

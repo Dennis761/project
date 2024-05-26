@@ -1,13 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveProduct, removeSavedProduct } from '../../../Redux/Actions/productActions';
+import { saveProduct, removeSavedProduct } from '../../../Redux/Actions/saveProductActions.js';
 import useDebounce from '../../Hooks/useDebounce.jsx';
 import { BiBookmarkAltPlus } from 'react-icons/bi';
 import { MdCancel } from 'react-icons/md';
 
 export default function SaveState({ id }) {
     const dispatch = useDispatch(); 
-    const { checkSavedProduct, saved, saves, saveState } = useSelector(state => state.saveProductState);
+    const { checkSavedProduct, saved, currentSaves, saveState } = useSelector(state => state.saveProductState);
 
     const save = () => {
         dispatch(saveProduct(id));
@@ -36,7 +36,7 @@ export default function SaveState({ id }) {
                         Save product: {<BiBookmarkAltPlus size={20} onClick={debounceSaved} />}
                     </p>
                 )}
-            <p style={{ fontSize: '3vh' }} className='product-save'>Saves: {saves ? saves : saved}</p>
+            <p style={{ fontSize: '3vh' }} className='product-save'>Saves: {currentSaves ? currentSaves : saved}</p>
         </>
     );
 }

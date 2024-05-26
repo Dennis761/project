@@ -15,6 +15,10 @@
   list-style-type: none;
 }
 
+.scroll-menu::-webkit-scrollbar {
+  display: none;
+}
+
 .scroll-menu ul li {
   display: inline-block;
   margin-right: 20px;

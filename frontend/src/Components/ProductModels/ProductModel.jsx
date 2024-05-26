@@ -7,6 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Image from 'react-bootstrap/Image';
 
 export default function ProductModel({ product, isLoading, userData }) {
+
   return (
     <div>
       {isLoading ? (
@@ -35,7 +36,6 @@ export default function ProductModel({ product, isLoading, userData }) {
             <div>
               <Image 
                 src={product.imageURL} 
-                className='product-images' 
                 style={{ 
                   width: '70vh', 
                   marginLeft: '10vh', 

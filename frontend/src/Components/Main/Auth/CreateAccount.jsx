@@ -31,7 +31,7 @@ export default function CreateAccount() {
           <label htmlFor="email">User name:</label>
           <input
             id="name"
-            placeholder='Input user name'
+            placeholder='Enter user name'
             type='text'
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -50,7 +50,7 @@ export default function CreateAccount() {
           <label htmlFor="email">Gmail:</label>
           <input
             id="email"
-            placeholder='Input user Gmail'
+            placeholder='Enter user Gmail'
             type='text'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -69,7 +69,7 @@ export default function CreateAccount() {
           <label htmlFor="email">Country:</label>
           <input
             id="country"
-            placeholder='Input user country'
+            placeholder='Enter user country'
             type='text'
             value={country}
             onChange={(e) => setCountry(e.target.value)}
@@ -88,7 +88,7 @@ export default function CreateAccount() {
           <label htmlFor="password">Password:</label>
           <input
             id="password"
-            placeholder='Input user password'
+            placeholder='Enter user password'
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

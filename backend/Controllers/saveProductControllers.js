@@ -27,9 +27,9 @@ export const saveOne = async (req, res) => {
             });
         }
         
-        const findProduct = await ProductModel.findById(id);
+        const foundProduct = await ProductModel.findById(id);
         
-        if (!findProduct) {
+        if (!foundProduct) {
             return res.status(404).json({
                 error: 'Product not found'
             });
@@ -49,11 +49,11 @@ export const saveOne = async (req, res) => {
             { new: true } 
         );
 
-        findProduct.saved.push(userId)
-        await findProduct.save();
+        foundProduct.saved.push(userId)
+        await foundProduct.save();
         res.status(200).json({ 
-            savedId: id,
-            saves: findProduct.saved.length,
+            foundProduct,
+            currentSaves: foundProduct.saved.length,
             message: 'Product successfully saved' });
     } catch (error) {
         return res.status(500).json({
@@ -112,7 +112,7 @@ export const removeSaved = async (req, res) => {
 
         res.status(200).json({
             removedId: id,
-            saves: findProduct.saved.length,
+            currentSaves: findProduct.saved.length,
             message: `The product was successfully removed from the user's saves`
         });
     } catch (error) {
@@ -122,77 +122,60 @@ export const removeSaved = async (req, res) => {
     }
 };
 
-export const rateOne = async (req, res) => {
-    const userId = req.userId;
-    const { id, rating } = req.body;
-
+export const savedList = async (req, res) => {
     try {
-        // Check if the user has already rated this product
-        const user = await UserModel.findById(userId);
-        const productIndex = user.rated.findIndex(item => item.id === id);
+        const userId = req.userId;
+        const {products, pages} = req.query
 
-        if (productIndex === -1) {
-            // If the product has not yet been rated by the user
-            await UserModel.findOneAndUpdate(
-                { _id: userId },
-                { $push: { rated: { id: id, rating: rating } } }
-            );
-
-            const product = await ProductModel.findById(id);
-            const newTotal = product.rating.total + rating;
-            const newCount = [...product.rating.count, userId];
-            const newAverage = (newTotal / newCount.length).toFixed(1);
-
-            await ProductModel.findOneAndUpdate(
-                { _id: id },
-                {
-                    'rating.total': newTotal,
-                    'rating.count': newCount,
-                    'rating.average': newAverage
-                }
-            );
-
-            res.status(200).json({ 
-                average: newAverage, 
-                rate: rating 
-            });
-        } else {
-            // If the product has already been rated by the user
-            const product = await ProductModel.findById(id);
-
-            // Calculate the new total product rating
-            const newTotal = product.rating.total - user.rated[productIndex].rating + rating;
-
-            // Update the count array
-            const newCount = product.rating.count.map(String); // Convert user ids to strings
-            const userIndex = newCount.indexOf(String(userId)); // Looking for the index of the current user
-            if (userIndex !== -1) {
-                newCount[userIndex] = String(userId); // Update the rating of the current user
-            }
-
-            // Update the average product rating
-            const newAverage = newTotal / newCount.length;
-
-            await ProductModel.findOneAndUpdate(
-                { _id: id },
-                {
-                    'rating.total': newTotal,
-                    'rating.average': newAverage
-                }
-            );
-
-            // Update user rating in UserModel
-            await UserModel.findOneAndUpdate(
-                { _id: userId, 'rated.id': id },
-                { $set: { 'rated.$.rating': rating } }
-            );
-            res.status(200).json({ 
-                average: newAverage, 
-                rate: rating 
+        if (!userId) {
+            return res.status(400).json({
+                error: 'User ID not specified' 
             });
         }
-    } catch (error) {
-        console.error(error);
-        throw new Error('Failed to rate the product.');
+
+        const findUser = await UserModel.findById(userId);
+        
+        if (!findUser) {
+            return res.status(404).json({
+                error: 'User not found'
+            });
+        }
+
+        const findProductPromises = findUser.saved.map(id => ProductModel.findById(id));
+
+        const foundSavedProducts = await Promise.all(findProductPromises);
+
+        function generateSavedLine (savedList){
+            const multiply = products*pages
+            const restProducts = savedList.length - multiply
+
+            if(restProducts <= products && restProducts>=0){
+                const recommendations = savedList.splice(multiply, restProducts)
+                return recommendations
+            }
+
+            if(restProducts > products && restProducts>=0){
+                const recommendations = savedList.splice(multiply, products);
+                return recommendations;
+            }
+
+            if(multiply >= savedList.length){
+                return []
+            }
+
+            if(savedList.length<20){
+                return savedList
+            }
     }
-}
+
+    const savedNewList = generateSavedLine(foundSavedProducts)
+
+        res.status(200).json({
+            savedProducts: savedNewList
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: 'Server error'
+        });
+    }
+};

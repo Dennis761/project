@@ -5,7 +5,7 @@ import EditProduct from '../Main/ProductActions/EditProduct.jsx';
 import Spinner from 'react-bootstrap/Spinner';
 import './ScrollMenuList.css';
 
-const ScrollMenu = ({ items, isLoading, state }) => {
+const ScrollMenu = ({ items, isLoading, rightsState }) => {
     const [editingItemId, setEditingItemId] = useState(null);
 
     const handleEditClick = (itemId) => {
@@ -49,28 +49,35 @@ const ScrollMenu = ({ items, isLoading, state }) => {
                   ) : 
                 <div className="scroll-menu">
                     <ul>
-                        {items && items.length > 0 ? (
-                            items.map(item => (
-                                item && <li key={item._id}>
-                                    <div>
-                                        <Link to={`/product/${item._id}`}>
-                                            <h2 className='title-in-product'>Title: {truncateString(item.title)}</h2>
-                                            <p className='description-in-product'>Description: {truncateString(item.description)}</p>
-                                            <p className='location-in-product'>Location: {truncateString(item.location)}</p>
-                                            <p className='rating-in-product'>Rating: {truncateString(item.rating.average)}/5</p>
-                                            <p className='views-in-product'>Count of views: {truncateString(item.viewsCount)}</p>
-                                        </Link>
-                                        {state && <button className="edit-product-button" onClick={() => handleEditClick(item._id)}>
-                                            {editingItemId === item._id ? 'Close Edit' : 'Edit Product'}
-                                        </button>}
-                                        {editingItemId && <EditProduct id={item._id} onClose={handleCloseEdit} />}
-                                        {state && <DeleteProduct id={item._id} />}
-                                    </div>
-                                </li>
-                            ))
-                        ) : (
-                    <h1>No products available</h1>
-                )}
+                    {items && items.length > 0 ? (
+                      items.map(item => (
+                          item && (
+                              <li key={item._id}>
+                                  <div>
+                                      <Link to={`/products/${item._id}`}>
+                                          <h2 className='title-in-product'>Title: {truncateString(item.title)}</h2>
+                                          <p className='description-in-product'>Description: {truncateString(item.description)}</p>
+                                          <p className='location-in-product'>Location: {truncateString(item.location)}</p>
+                                          <p className='rating-in-product'>Rating: {truncateString(item.rating.average)}/5</p>
+                                          <p className='views-in-product'>Count of views: {truncateString(item.viewsCount)}</p>
+                                      </Link>
+                                      {rightsState && (
+                                          <button
+                                              className="edit-product-button"
+                                              onClick={() => handleEditClick(item._id)}
+                                          >
+                                              {editingItemId === item._id ? 'Close Edit' : 'Edit Product'}
+                                          </button>
+                                      )}
+                                      {editingItemId === item._id && <EditProduct id={item._id} onClose={handleCloseEdit} />}
+                                      {rightsState && <DeleteProduct id={item._id} />}
+                                  </div>
+                              </li>
+                          )
+                      ))
+                  ) : (
+                      <h1>No products available</h1>
+                  )}
             </ul>
         </div>}
         </>

@@ -31,6 +31,10 @@
     border-radius: 3px;
   }
   
+  .edit-product-container::-webkit-scrollbar {
+    display: none;
+  }
+  
   .edit-product-form button {
     padding: 10px 20px;
     color: #ffffff;

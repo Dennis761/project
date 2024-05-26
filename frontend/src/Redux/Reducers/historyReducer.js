@@ -8,6 +8,7 @@ export const historyReducer = (state = { historyList: [], lineState: [], isLoadi
                 isLoading: true,
                 error: null
             }
+
         case actionType.HISTORY_LIST_SUCCESS:
             return {
                 ...state,
@@ -16,12 +17,14 @@ export const historyReducer = (state = { historyList: [], lineState: [], isLoadi
                 historyList: [...state.historyList, ...action.payload.historyList],
                 pages: action.payload.pages? action.payload.pages + 1 : 1,
             }
+
         case actionType.HISTORY_LIST_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload.error
             }
+
         case actionType.REMOVE_ONE_FROM_HISTORY_SUCCESS:
             const removed = action.payload.removedId
             const newHistory = state.historyList.filter(item => item._id !== removed)
@@ -30,6 +33,7 @@ export const historyReducer = (state = { historyList: [], lineState: [], isLoadi
                 isLoading: false,
                 historyList: newHistory
             }
+
         case actionType.REMOVE_ONE_FROM_HISTORY_ERROR:
             return {
                 ...state,
@@ -41,6 +45,7 @@ export const historyReducer = (state = { historyList: [], lineState: [], isLoadi
                 ...state,
                 error: null
             };
+            
         default:
             return state;
     }

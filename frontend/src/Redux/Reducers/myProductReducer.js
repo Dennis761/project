@@ -8,19 +8,22 @@ export const publishProductReducer = (state = {product: {}, error: null}, action
                 product: action.payload.product,
                 error: null
             }
+
         case actionType.PUBLISH_PRODUCT_ERROR:
             return {
                 ...state,
                 error: action.payload.error.errors
             };
+
         case actionType.CLEAR_ERROR:
             return {
                 ...state,
                 error: action.payload ? action.payload.error : null          
             };
+
         default:
             return state;
-        }
+    }
 }
 
 export const myProductReducer = (state = { updatedList: [], isLoading: false, error: null }, action) => {
@@ -31,35 +34,41 @@ export const myProductReducer = (state = { updatedList: [], isLoading: false, er
                 isLoading: true,
                 updatedList: []
             };
+
         case actionType.MY_PRODUCTS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 updatedList: action.payload.foundProducts,
-                state: action.payload.state
+                rightsState: action.payload.rightsState
             };
+
         case actionType.MY_PRODUCTS_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload.error
             };
+
         case actionType.EDIT_PRODUCT_SUCCESS:
             const editedProduct = action.payload.updatedProduct;
-            const editedList = state.updatedList.map(obj => {
+
+            const updatedList = state.updatedList.map(obj => {
                 return obj._id === editedProduct._id ? editedProduct : obj;
             });
             return {
                 ...state,
                 isLoading: false,
-                updatedList: editedList
+                updatedList
             };
+
         case actionType.EDIT_PRODUCT_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload.error
             };
+
         case actionType.DELETE_PRODUCT_SUCCESS:
             const productId = action.payload.removedId;
             const newList = state.updatedList.filter(obj => obj._id !== productId);
@@ -68,17 +77,20 @@ export const myProductReducer = (state = { updatedList: [], isLoading: false, er
                 isLoading: false,
                 updatedList: newList
             };
+
         case actionType.DELETE_PRODUCT_ERROR:
             return {
                 ...state,
                 isLoading: false,
                 error: action.payload.error
             };
+
         case actionType.CLEAR_ERROR:
             return {
             ...state,
                 error: null
             };
+            
         default:
             return state;
     }

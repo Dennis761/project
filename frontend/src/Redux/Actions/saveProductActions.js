@@ -1,4 +1,4 @@
-import * as actionType from '../Constants/productConstants.js';
+import * as actionType from '../Constants/saveProductConstants.js';
 import axios from 'axios';
 
 export const saveProduct = (id) => async (dispatch) => {
@@ -21,13 +21,13 @@ export const saveProduct = (id) => async (dispatch) => {
             throw new Error('Invalid response data');
         }
 
-        const { savedId, saves } = response.data;
+        const { foundProduct, currentSaves } = response.data;
 
         dispatch({
             type: actionType.SAVE_PRODUCT_SUCCESS,
             payload: {
-                savedId,
-                saves,
+                foundProduct,
+                currentSaves,
                 saveState: true,
             },
         });
@@ -60,12 +60,12 @@ export const removeSavedProduct = (id) => async (dispatch) => {
             throw new Error('Invalid response data');
         }
 
-        const { removedId, saves } = response.data;
+        const { removedId, currentSaves } = response.data;
         dispatch({
             type: actionType.REMOVE_SAVED_SUCCESS,
             payload: {
                     removedId,
-                    saves, 
+                    currentSaves, 
                     saveState: false
                 }
             })
@@ -80,7 +80,7 @@ export const removeSavedProduct = (id) => async (dispatch) => {
 
 export const getSavedProducts = (products, pages) => async (dispatch) => {
     try {
-        dispatch({type: actionType.SAVED_PRODUCTS_REQUEST})
+        dispatch({type: actionType.SAVED_PRODUCTS_LIST_REQUEST})
         const token = localStorage.getItem('token');
         if (!token) {
           throw new Error('Token not found in local storage');
@@ -97,7 +97,7 @@ export const getSavedProducts = (products, pages) => async (dispatch) => {
         }
         
         dispatch({
-            type: actionType.SAVED_PRODUCTS_SUCCESS,
+            type: actionType.SAVED_PRODUCTS_LIST_SUCCESS,
             payload: {
                 savedProducts,
                 pages
@@ -105,87 +105,12 @@ export const getSavedProducts = (products, pages) => async (dispatch) => {
         })
     } catch (error) {
         dispatch({
-            type: actionType.SAVED_PRODUCTS_ERROR,
+            type: actionType.SAVED_PRODUCTS_LIST_ERROR,
             payload: error
         })
     }
 }
  
-export const rateProduct = (rating, id) => async (dispatch) => {
-    try { 
-        const token = localStorage.getItem('token');
-        if (!token) {
-            throw new Error('Token not found in local storage');
-        }
-        const response = await axios.patch(`http://localhost:4444/rated-one`, { rating, id }, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        if(!response.data){
-            throw new Error('Invalid response data');
-        }
-
-        const { average, rate } = response.data;
-        
-        dispatch({
-            type: actionType.RATE_ONE_SUCCESS,
-            payload: {
-                rating: rate,
-            }
-        });
-
-        dispatch({
-            type: actionType.AVERAGE_RATING_SUCCESS,
-            payload: {
-                average: average
-            }
-        });
-    } catch (error) {
-        dispatch({
-            type: actionType.RATE_ONE_ERROR,
-            payload: error.message 
-        });
-    }
-};
-
-export const ratedProductList = (products, pages) => async (dispatch) => {
-    try {
-      dispatch({ type: actionType.RATED_LIST_REQUEST });
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Token not found in local storage');
-      }
-      const response = await axios.get(`http://localhost:4444/rated-list?products=${products.toString()}&pages=${pages.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if(!response.data){
-        throw new Error('Invalid response data');
-    }
-    
-      const { foundRatedProducts } = response.data;
-
-      dispatch({
-        type: actionType.RATED_LIST_SUCCESS,
-        payload: {
-          foundRatedProducts,
-          pages
-        }
-      });
-    } catch (error) {
-      dispatch({
-        type: actionType.RATED_LIST_ERROR,
-        payload: {
-            error: error.response.data
-        }
-      });
-    }
-  };
-
 export const clearError = () => async (dispatch) => {
     dispatch({type: actionType.CLEAR_ERROR})
   }

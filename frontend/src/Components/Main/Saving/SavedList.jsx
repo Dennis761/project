@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSavedProducts, clearError } from '../../../Redux/Actions/productActions.js';
+import { getSavedProducts, clearError } from '../../../Redux/Actions/saveProductActions.js';
 import useInternetState from '../../Hooks/useInternetState.jsx';
 import usePagination from '../../Hooks/usePagination.jsx' 
 import ProductListModel from '../../ProductModels/ProductListModel.jsx';
@@ -12,7 +12,7 @@ export default function SavedList() {
     const parentRef = useRef()
     const childRef = useRef() 
     const productsPerPage = 20;
-    const { savedProducts, pages, isLoading, lineState, error } = useSelector(state => state.savedProductsList);
+    const { savedProducts, pages, isLoading, lineState, error } = useSelector(state => state.saveProductState);
     const isOnline = useInternetState()
 
     usePagination(parentRef, childRef, () => {
@@ -42,12 +42,22 @@ export default function SavedList() {
                 backgroundAttachment: 'fixed',
                 padding: '20px',
             }}>
-              <h1 style={{ 
-                  textAlign: 'center', 
-                  color: 'white'
-              }}>
-                  Your saves
-              </h1>
+              <h2 style={{
+                textAlign: 'center',
+                color: 'white',
+                fontSize: '7vh',
+                textShadow: `
+                -0.15vh -0.15vh 0 #000,  
+                 0.15vh -0.15vh 0 #000,
+                -0.15vh  0.15vh 0 #000,
+                 0.15vh  0.15vh 0 #000,
+                -0.15vh -0.15vh 0 #000,
+                 0.15vh -0.15vh 0 #000,
+                -0.15vh  0.15vh 0 #000,
+                 0.15vh  0.15vh 0 #000`            
+                 }}>
+                  Your Saves:
+              </h2>
               {savedProducts && savedProducts.length > 0 ? (
                 <ProductListModel 
                 products={savedProducts} 

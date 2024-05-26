@@ -6,12 +6,13 @@ import checkAuth from './Middlewares/CheckAuth.js'
 
 import * as validator from './Validation/Validation.js'
 
-import * as productControllers from './Controllers/productControllers.js'
 import * as cartControllers from './Controllers/cartControllers.js'
 import * as getProductControllers from './Controllers/getProductListControllers.js'
-import * as myProductControllers from './Controllers/myProductControllers.js'
-import * as userControllers from './Controllers/userControllers.js'
 import * as historyControllers from './Controllers/historyControllers.js'
+import * as myProductControllers from './Controllers/myProductControllers.js'
+import * as rateProductControllers from './Controllers/rateProductControllers.js'
+import * as saveProductControllers from './Controllers/saveProductControllers.js'
+import * as userControllers from './Controllers/userControllers.js'
 
 const app = express();
 const PORT = 4444;
@@ -42,14 +43,14 @@ app.patch('/edit-profile', checkAuth, userControllers.editProfile)
 
 //Save Routes
 
-app.patch('/saved-one', checkAuth, productControllers.saveOne)
-app.patch('/remove-saved', checkAuth, productControllers.removeSaved)
-app.get('/saved-list', checkAuth, getProductControllers.savedList)
+app.patch('/saved-one', checkAuth, saveProductControllers.saveOne)
+app.patch('/remove-saved', checkAuth, saveProductControllers.removeSaved)
+app.get('/saved-list', checkAuth, saveProductControllers.savedList)
 
 //Rate Routes
 
-app.patch('/rated-one', checkAuth, productControllers.rateOne)
-app.get('/rated-list', checkAuth, getProductControllers.ratedList)
+app.patch('/rated-one', checkAuth, rateProductControllers.rateOne)
+app.get('/rated-list', checkAuth, rateProductControllers.ratedList)
 
 //Cart Routes
 
@@ -72,8 +73,8 @@ app.delete('/delete-product/:id', checkAuth, myProductControllers.deleteMyProduc
 //Get/Find other products Routes
 
 app.get('/products', checkAuth, getProductControllers.getAllProducts)
-app.get('/product/:productId', checkAuth, getProductControllers.getOneProduct)
-app.get('/products/:title', checkAuth, getProductControllers.findAllProducts)
+app.get('/products/:productId', checkAuth, getProductControllers.getOneProduct)
+app.get('/found-products/:title', checkAuth, getProductControllers.findAllProducts)
 
 app.listen(PORT, (err) => {
   if(err){

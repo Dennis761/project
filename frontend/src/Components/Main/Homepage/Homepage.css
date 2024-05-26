@@ -28,10 +28,27 @@ body{
 }
 
 .foreground-content h1 {
-  font-size: 36px;
+  font-size: 7vh;
+  text-shadow: -0.15vh -0.15vh 0 #000,  
+                0.15vh -0.15vh 0 #000,
+               -0.15vh  0.15vh 0 #000,
+                0.15vh  0.15vh 0 #000,
+               -0.15vh -0.15vh 0 #000,
+                0.15vh -0.15vh 0 #000,
+               -0.15vh  0.15vh 0 #000,
+                0.15vh  0.15vh 0 #000;
 }
 
 .foreground-content p {
-  font-size: 18px;
+  font-size: 3vh;
+  text-shadow: -0.05vh -0.05vh 0 #000,  
+                0.05vh -0.05vh 0 #000,
+               -0.05vh  0.05vh 0 #000,
+                0.05vh  0.05vh 0 #000,
+               -0.05vh -0.05vh 0 #000,
+                0.05vh -0.05vh 0 #000,
+               -0.05vh  0.05vh 0 #000,
+                0.05vh  0.05vh 0 #000;
+
 }
 
