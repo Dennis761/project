@@ -13,11 +13,11 @@ export default function FoundProduct() {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  const sortByRating = useMemo(() => {
+  const sortBySaved = useMemo(() => {
     return foundProductsByTitle && [...foundProductsByTitle].sort((a, b) => b.saved.length - a.saved.length);
   }, [foundProductsByTitle]);
 
-  const sortBySaved = useMemo(() => {
+  const sortByRating = useMemo(() => {
     return foundProductsByTitle && [...foundProductsByTitle].sort((a, b) => b.rating.average - a.rating.average)
   }, [foundProductsByTitle]);
 
