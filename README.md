@@ -1,5 +1,5 @@
 ##Title:
---> Antique shop
+--> Antique store
 
 ##Description:
 -Welcome to our Antique Store website, your premier destination for exquisite antique treasures.
